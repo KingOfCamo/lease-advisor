@@ -5,6 +5,8 @@ import { Users, FileText, DollarSign, TrendingUp } from "lucide-react";
 import { formatCurrency } from "@/lib/formatters";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function DashboardPage() {
   const [clients, leases, analyses] = await Promise.all([
     prisma.client.findMany(),

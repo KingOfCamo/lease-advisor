@@ -9,6 +9,8 @@ import Link from "next/link";
 import { Plus } from "lucide-react";
 import { PortfolioCharts } from "@/components/portfolio/portfolio-charts";
 
+export const dynamic = "force-dynamic";
+
 interface Recommendation {
   title: string;
   description: string;

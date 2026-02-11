@@ -8,6 +8,8 @@ import { FileText, BarChart3, Plus } from "lucide-react";
 import { formatCurrency, formatDate } from "@/lib/formatters";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function ClientDetailPage({
   params,
 }: {

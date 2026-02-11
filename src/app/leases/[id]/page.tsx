@@ -8,6 +8,8 @@ import { formatCurrency, formatDate, formatArea } from "@/lib/formatters";
 import Link from "next/link";
 import { BarChart3 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function LeaseDetailPage({
   params,
 }: {

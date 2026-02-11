@@ -9,6 +9,8 @@ import { formatCurrency } from "@/lib/formatters";
 import Link from "next/link";
 import { AlertTriangle, FileText, ArrowLeft } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 interface ClauseScore {
   clauseName: string;
   rating: string;

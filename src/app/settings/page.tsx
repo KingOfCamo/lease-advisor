@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { PageHeader } from "@/components/layout/page-header";
 import { SettingsForm } from "./settings-form";
 
+export const dynamic = "force-dynamic";
+
 export default async function SettingsPage() {
   let settings = await prisma.businessSettings.findUnique({
     where: { id: "default" },
