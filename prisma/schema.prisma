@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id            String   @id @default(cuid())
+  businessName  String
+  contactPerson String?
+  email         String?
+  phone         String?
+  clientType    String   // LANDLORD | TENANT
+  abn           String?
+  status        String   @default("ACTIVE") // ACTIVE | PROSPECT | ARCHIVED
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  leases        Lease[]
+}
+
+model Property {
+  id           String   @id @default(cuid())
+  address      String
+  suburb       String
+  state        String   @default("VIC")
+  postcode     String
+  propertyType String   // RETAIL | OFFICE | INDUSTRIAL | MIXED_USE | OTHER
+  nla          Float    // net lettable area in sqm
+  propertyGrade String? // A | B | C | D | UNGRADED
+  isRetailLease Boolean @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  leases       Lease[]
+}
+
+model Lease {
+  id                       String    @id @default(cuid())
+  clientId                 String
+  client                   Client    @relation(fields: [clientId], references: [id])
+  propertyId               String
+  property                 Property  @relation(fields: [propertyId], references: [id])
+
+  leaseName                String
+  tenantName               String
+  landlordName             String
+
+  commencementDate         DateTime
+  expiryDate               DateTime
+  totalTermMonths          Int
+
+  optionsToRenew           String?   // JSON array: [{termMonths, conditions}]
+
+  baseRentPA               Float     // per annum AUD
+  baseRentPSQM             Float?    // auto-calculated: baseRentPA / NLA
+
+  rentReviewMechanism      String    // FIXED_PERCENT | CPI | MARKET | CPI_PLUS | COMBINATION
+  rentReviewDetail         String?   // e.g. "3% fixed annually"
+  rentReviewFrequencyMonths Int      @default(12)
+  hasRatchetClause         Boolean   @default(false)
+
+  outgoingsStructure       String    // GROSS | SEMI_GROSS | NET
+  outgoingsDetail          String?   // JSON: {councilRates, waterRates, insurance, landTax, managementFee, structuralMaintenance, other}
+  outgoingsEstimatePA      Float?
+
+  permittedUse             String?
+  makeGoodObligations      String?
+  fitoutContribution       Float?
+  rentFreePeriodMonths     Float?
+  incentivesDetail         String?
+
+  bondAmount               Float?
+  bondType                 String?   // BANK_GUARANTEE | CASH_BOND | PERSONAL_GUARANTEE
+  bondReductionTerms       String?
+
+  assignmentRights         String?
+  sublettingRights         String?
+  defaultProvisions        String?
+  curePeriodDays           Int?
+  demolitionClause         Boolean   @default(false)
+  relocationClause         Boolean   @default(false)
+  firstRightOfRefusal      Boolean   @default(false)
+
+  specialConditions        String?
+  originalPdfUrl           String?
+
+  status                   String    @default("DRAFT") // DRAFT | ANALYSED | REPORTED
+
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+
+  analyses                 LeaseAnalysis[]
+}
+
+model LeaseAnalysis {
+  id                       String   @id @default(cuid())
+  leaseId                  String
+  lease                    Lease    @relation(fields: [leaseId], references: [id])
+
+  overallLandlordScore     Float    // 0-100
+  overallTenantScore       Float    // 0-100
+
+  clauseAnalysis           String   // JSON array: [{clauseName, rating, explanation, recommendation, estimatedImpactPA}]
+  topRecommendations       String   // JSON array: [{title, description, estimatedAnnualImpact, priority}]
+  totalEstimatedAnnualImpact Float
+
+  riskFlags                String?  // JSON array: [{flag, severity, detail}]
+  retailLeasesActIssues    String?  // JSON array of issues
+  marketContext            String?  // JSON: {benchmarks, comparables}
+
+  analysedAt               DateTime @default(now())
+  aiModel                  String   @default("mock")
+}
+
+model BusinessSettings {
+  id              String   @id @default("default")
+  companyName     String   @default("Ben Palmieri Consulting")
+  tagline         String   @default("Lease Advisor")
+  licenceNumber   String   @default("")
+  email           String   @default("")
+  phone           String   @default("")
+  address         String   @default("")
+  logoUrl         String?
+  primaryColor    String   @default("#1e3a5f")
+  disclaimer      String   @default("This report is advisory in nature and does not constitute legal advice. Ben Palmieri Consulting recommends seeking independent legal advice before acting on any recommendations.")
+  termsOfEngagement String @default("")
+  updatedAt       DateTime @updatedAt
+}
