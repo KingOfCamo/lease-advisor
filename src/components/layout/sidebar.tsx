@@ -32,7 +32,7 @@ export function Sidebar() {
           <Building2 className="h-7 w-7 text-white" />
           <div>
             <h1 className="text-sm font-semibold text-white">Ben Palmieri</h1>
-            <p className="text-xs text-navy-300">Lease Advisor</p>
+            <p className="text-xs text-navy-300">Director | Leasing Consultant</p>
           </div>
         </div>
 

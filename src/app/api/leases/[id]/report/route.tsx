@@ -36,7 +36,7 @@ export async function GET(
     settings = {
       id: "default",
       companyName: "Ben Palmieri Consulting",
-      tagline: "Lease Advisor",
+      tagline: "Director | Leasing Consultant",
       licenceNumber: "",
       email: "",
       phone: "",

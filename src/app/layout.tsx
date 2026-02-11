@@ -11,7 +11,7 @@ const geistSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Lease Advisor — Ben Palmieri Consulting",
+  title: "Director | Leasing Consultant — Ben Palmieri Consulting",
   description: "Commercial lease analysis platform for Victorian estate agents",
 };
 

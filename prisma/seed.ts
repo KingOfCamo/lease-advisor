@@ -15,7 +15,7 @@ async function main() {
     data: {
       id: "default",
       companyName: "Ben Palmieri Consulting",
-      tagline: "Lease Advisor",
+      tagline: "Director | Leasing Consultant",
       licenceNumber: "",
       email: "ben@palmieriproperty.com.au",
       phone: "0412 345 678",

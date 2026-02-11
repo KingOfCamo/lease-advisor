@@ -119,7 +119,7 @@ model LeaseAnalysis {
 model BusinessSettings {
   id              String   @id @default("default")
   companyName     String   @default("Ben Palmieri Consulting")
-  tagline         String   @default("Lease Advisor")
+  tagline         String   @default("Director | Leasing Consultant")
   licenceNumber   String   @default("")
   email           String   @default("")
   phone           String   @default("")
