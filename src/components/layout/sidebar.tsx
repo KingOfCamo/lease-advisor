@@ -61,6 +61,8 @@ export function Sidebar() {
         <div className="border-t border-navy-700 px-6 py-4">
           <p className="text-xs text-navy-400">
             Licensed Estate Agent, VIC
+            <br />
+            Licence No. 095428L
           </p>
         </div>
       </div>

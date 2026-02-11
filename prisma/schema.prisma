@@ -120,7 +120,7 @@ model BusinessSettings {
   id              String   @id @default("default")
   companyName     String   @default("Ben Palmieri Consulting")
   tagline         String   @default("Director | Leasing Consultant")
-  licenceNumber   String   @default("")
+  licenceNumber   String   @default("095428L")
   email           String   @default("")
   phone           String   @default("")
   address         String   @default("")

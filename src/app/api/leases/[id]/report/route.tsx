@@ -37,7 +37,7 @@ export async function GET(
       id: "default",
       companyName: "Ben Palmieri Consulting",
       tagline: "Director | Leasing Consultant",
-      licenceNumber: "",
+      licenceNumber: "095428L",
       email: "",
       phone: "",
       address: "",

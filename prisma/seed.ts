@@ -16,7 +16,7 @@ async function main() {
       id: "default",
       companyName: "Ben Palmieri Consulting",
       tagline: "Director | Leasing Consultant",
-      licenceNumber: "",
+      licenceNumber: "095428L",
       email: "ben@palmieriproperty.com.au",
       phone: "0412 345 678",
       address: "Level 4, 360 Collins St, Melbourne VIC 3000",
