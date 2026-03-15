@@ -24,8 +24,8 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2">
           <Building2 className="h-7 w-7 text-navy-900" />
           <div>
-            <span className="text-sm font-semibold text-navy-900">Ben Palmieri</span>
-            <span className="hidden text-xs text-navy-500 sm:block">Consulting</span>
+            <span className="text-sm font-semibold text-navy-900">Ancora Property</span>
+            <span className="hidden text-xs text-navy-500 sm:block">Advisory</span>
           </div>
         </Link>
 
