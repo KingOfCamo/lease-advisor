@@ -25,6 +25,10 @@ export interface WizardData {
   leaseName: string;
   tenantName: string;
   landlordName: string;
+  managingAgentName: string;
+  managingAgentCompany: string;
+  managingAgentEmail: string;
+  managingAgentPhone: string;
   commencementDate: string;
   expiryDate: string;
   optionsToRenew: Array<{ termMonths: number; conditions: string }>;
@@ -90,6 +94,10 @@ export const defaultWizardData: WizardData = {
   leaseName: "",
   tenantName: "",
   landlordName: "",
+  managingAgentName: "",
+  managingAgentCompany: "",
+  managingAgentEmail: "",
+  managingAgentPhone: "",
   commencementDate: "",
   expiryDate: "",
   optionsToRenew: [],

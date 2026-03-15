@@ -342,36 +342,213 @@ function checkRetailLeasesAct(lease: LeaseWithRelations): RetailLeaseIssue[] {
   if (!lease.property.isRetailLease) return [];
 
   const issues: RetailLeaseIssue[] = [];
+  const specialLower = (lease.specialConditions || "").toLowerCase();
+  const makeGoodLower = (lease.makeGoodObligations || "").toLowerCase();
+  const assignmentLower = (lease.assignmentRights || "").toLowerCase();
+  const outgoings = lease.outgoingsDetail ? JSON.parse(lease.outgoingsDetail) : null;
 
-  if (lease.hasRatchetClause) {
+  // ── Part 3: Disclosure (s15-20) ──
+
+  if (!specialLower.includes("disclosure statement")) {
     issues.push({
-      section: "s35 Retail Leases Act 2003",
-      issue: "Ratchet clause potentially non-compliant",
-      detail: "Section 35 of the Retail Leases Act 2003 (Vic) restricts ratchet clauses in retail leases. The rent review clause should be reviewed for compliance.",
+      section: "s17 — Disclosure Statement",
+      issue: "No disclosure statement referenced in lease",
+      detail: "The landlord must provide the tenant with a disclosure statement in the prescribed form before the lease is entered into.",
+      requirement: "Disclosure statement must be provided at least 7 days before the tenant enters into the lease or pays any consideration.",
     });
   }
+
+  // ── Part 4: Lease Terms (s21-25) ──
 
   if (lease.totalTermMonths < 60) {
     issues.push({
-      section: "s21 Retail Leases Act 2003",
+      section: "s21 — Minimum Term",
       issue: "Lease term below 5-year minimum",
-      detail: "Section 21 requires a minimum 5-year term for new retail leases unless the tenant has waived this right with independent legal advice.",
+      detail: `Current term is ${lease.totalTermMonths} months (${(lease.totalTermMonths / 12).toFixed(1)} years). The Act requires a minimum 5-year term for retail leases.`,
+      requirement: "Minimum 5-year term unless the tenant has obtained independent legal advice and signed a written waiver (s21(1)(a)).",
     });
   }
 
-  if (lease.rentReviewMechanism === "MARKET" && !lease.rentReviewDetail?.toLowerCase().includes("cap")) {
+  const options = lease.optionsToRenew ? JSON.parse(lease.optionsToRenew) : [];
+  if (options.length === 0 && lease.totalTermMonths <= 60) {
     issues.push({
-      section: "s35 Retail Leases Act 2003",
-      issue: "Market review mechanism should comply with Act requirements",
-      detail: "Market rent reviews under the Act must follow specific procedures including independent valuation and tenant's right to dispute.",
+      section: "s23 — Options to Renew",
+      issue: "No options to renew on a short-term retail lease",
+      detail: "Retail lease with no renewal options may leave the tenant without security of tenure after the initial term.",
+      requirement: "While not mandatory, the Act encourages options that together with the initial term provide at least 5 years of occupancy.",
     });
   }
+
+  if (!specialLower.includes("holding over") && !specialLower.includes("hold over")) {
+    issues.push({
+      section: "s25 — Holding Over",
+      issue: "Holding over provisions not addressed",
+      detail: "The lease does not appear to address holding over arrangements after expiry.",
+      requirement: "Under s25, a tenant who holds over after lease expiry does so on a month-to-month basis on the same terms. The lease should clearly address this.",
+    });
+  }
+
+  // ── Part 5: Rent (s26-34) ──
+
+  if (lease.rentReviewFrequencyMonths < 12) {
+    issues.push({
+      section: "s26 — Rent Review Frequency",
+      issue: "Rent reviews more frequent than annually",
+      detail: `Rent reviews are set at every ${lease.rentReviewFrequencyMonths} months, which is more frequent than the standard annual cycle.`,
+      requirement: "The Act does not prohibit sub-annual reviews, but they are unusual for retail leases and should be carefully scrutinised.",
+    });
+  }
+
+  if (lease.rentReviewMechanism === "MARKET") {
+    const detailLower = (lease.rentReviewDetail || "").toLowerCase();
+    if (!detailLower.includes("independent") && !detailLower.includes("valuer") && !detailLower.includes("valuation")) {
+      issues.push({
+        section: "s28 — Market Rent Review",
+        issue: "Market review process may not comply with Act requirements",
+        detail: "Market rent reviews must follow specific procedures for determining current market rent.",
+        requirement: "Under s28, if parties cannot agree, an independent valuer must determine market rent. The tenant has the right to make submissions and dispute the determination.",
+      });
+    }
+  }
+
+  if (lease.hasRatchetClause) {
+    issues.push({
+      section: "s28(3) — Ratchet Clause",
+      issue: "Ratchet clause potentially non-compliant",
+      detail: "A ratchet clause prevents rent from decreasing at market review, even if the market has fallen. This is restricted under the Act.",
+      requirement: "Section 28(3) provides that a provision requiring rent to be not less than rent payable immediately before the review is void in a retail lease.",
+    });
+  }
+
+  const permittedUseLower = (lease.permittedUse || "").toLowerCase();
+  if (permittedUseLower.includes("retail") || permittedUseLower.includes("shop") || permittedUseLower.includes("food")) {
+    if (specialLower.includes("turnover") || specialLower.includes("percentage rent")) {
+      issues.push({
+        section: "s30-34 — Turnover Rent",
+        issue: "Turnover rent provisions must comply with disclosure requirements",
+        detail: "Where a lease includes turnover-based rent, specific disclosure and calculation requirements apply.",
+        requirement: "The landlord must not require turnover figures more frequently than monthly. The tenant must provide an annual audited statement (s31-32).",
+      });
+    }
+  }
+
+  // ── Part 6: Outgoings (s35-40) ──
 
   if (!lease.outgoingsDetail || lease.outgoingsStructure === "NET") {
     issues.push({
-      section: "s46-52 Retail Leases Act 2003",
-      issue: "Outgoings disclosure required",
-      detail: "The landlord must provide an estimate and detailed breakdown of outgoings before lease commencement, and annual reconciliation statements.",
+      section: "s36 — Outgoings Estimate",
+      issue: "Outgoings estimate and breakdown required",
+      detail: "The landlord must provide a written estimate and detailed breakdown of outgoings before the lease commences.",
+      requirement: "Annual outgoings estimates must be provided before each accounting period. Annual reconciliation statements are required within 3 months of the end of each accounting period.",
+    });
+  }
+
+  if (lease.outgoingsStructure === "NET" || lease.outgoingsStructure === "SEMI_GROSS") {
+    if (!specialLower.includes("audit")) {
+      issues.push({
+        section: "s37 — Outgoings Audit",
+        issue: "Tenant audit rights for outgoings not referenced",
+        detail: "The lease does not appear to address the tenant's right to audit outgoings expenditure.",
+        requirement: "Under s37, the tenant has the right to request an audit of any outgoings expenditure. The landlord must comply within a reasonable time.",
+      });
+    }
+  }
+
+  if (outgoings && outgoings.landTax && outgoings.landTax > 0) {
+    issues.push({
+      section: "s38 — Land Tax",
+      issue: "Land tax recovery from retail tenant",
+      detail: `Land tax of $${outgoings.landTax.toLocaleString()}/yr is included in outgoings. This is prohibited for retail leases.`,
+      requirement: "Section 38 prohibits the recovery of land tax from a retail tenant. Any lease provision requiring the tenant to pay land tax is void.",
+    });
+  }
+
+  if (outgoings && outgoings.other && outgoings.other > 0) {
+    if (specialLower.includes("marketing") || specialLower.includes("promotion")) {
+      issues.push({
+        section: "s39 — Marketing Fund",
+        issue: "Marketing/promotion fund contributions require compliance",
+        detail: "Contributions to marketing or promotion funds in retail leases are subject to specific requirements.",
+        requirement: "Under s39, marketing fund expenditure must be disclosed, accounted for, and audited. Tenants must be consulted on marketing plans.",
+      });
+    }
+  }
+
+  // ── Part 7: Repairs & Maintenance (s41-43) ──
+
+  if (makeGoodLower.includes("structural") || makeGoodLower.includes("capital")) {
+    issues.push({
+      section: "s42 — Landlord Repairs",
+      issue: "Structural/capital repair obligations may be incorrectly allocated",
+      detail: "The make good or repair provisions may place structural or capital repair obligations on the tenant.",
+      requirement: "Under s42, the landlord is responsible for maintaining the structure, fixtures, plant, and equipment (unless damaged by the tenant). These obligations cannot be passed to the retail tenant.",
+    });
+  }
+
+  if (!makeGoodLower && !specialLower.includes("repair")) {
+    issues.push({
+      section: "s43 — Repair Obligations",
+      issue: "Repair and maintenance responsibilities not clearly defined",
+      detail: "The lease does not clearly set out the respective repair and maintenance obligations of the parties.",
+      requirement: "Under s43, the tenant is only obligated for non-structural repairs and maintenance. Responsibilities should be clearly documented to avoid disputes.",
+    });
+  }
+
+  // ── Part 8: Security Deposits (s44-50) ──
+
+  const bondAmount = lease.bondAmount || 0;
+  const monthlyRent = lease.baseRentPA / 12;
+  const bondMonths = monthlyRent > 0 ? bondAmount / monthlyRent : 0;
+  if (bondMonths > 3) {
+    issues.push({
+      section: "s44-45 — Security Deposit",
+      issue: `Security deposit exceeds 3 months' rent (${bondMonths.toFixed(1)} months)`,
+      detail: `Bond of $${bondAmount.toLocaleString()} equates to ${bondMonths.toFixed(1)} months' rent, which exceeds the typical threshold for retail leases.`,
+      requirement: "While not strictly capped by the Act, security deposits exceeding 3 months' gross rent are considered excessive for retail leases and may be challenged.",
+    });
+  }
+
+  if (bondAmount > 0 && !lease.bondReductionTerms) {
+    issues.push({
+      section: "s46 — Security Return",
+      issue: "No provisions for security deposit return",
+      detail: "The lease does not specify terms for the return or reduction of the security deposit.",
+      requirement: "The Act requires the landlord to return the security deposit within a reasonable time after the lease ends, less any amounts properly claimed.",
+    });
+  }
+
+  // ── Part 9: Compensation (s51-53) ──
+
+  if (lease.demolitionClause) {
+    if (!specialLower.includes("compensation") || !specialLower.includes("demolition compensation")) {
+      issues.push({
+        section: "s52 — Demolition Compensation",
+        issue: "Demolition clause without compensation provisions",
+        detail: "The lease contains a demolition clause but does not appear to address tenant compensation rights.",
+        requirement: "Under s52, a tenant is entitled to compensation if the lease is terminated due to demolition, including reasonable relocation costs and loss of business value.",
+      });
+    }
+  }
+
+  if (lease.relocationClause) {
+    if (!specialLower.includes("comparable") && !specialLower.includes("equivalent")) {
+      issues.push({
+        section: "s53 — Relocation",
+        issue: "Relocation clause lacks adequate tenant protections",
+        detail: "The lease allows relocation but does not reference comparable or equivalent premises.",
+        requirement: "Under s53, any relocation must be to premises of comparable size, quality, and position. The landlord must pay all reasonable relocation costs.",
+      });
+    }
+  }
+
+  // ── Part 10: Assignment (s54-56) ──
+
+  if (assignmentLower.includes("absolute discretion") || assignmentLower.includes("not permitted") || assignmentLower.includes("no assignment")) {
+    issues.push({
+      section: "s54 — Assignment",
+      issue: "Assignment restrictions may not comply with the Act",
+      detail: "The lease restricts or prohibits assignment, which may be inconsistent with the Act's requirements.",
+      requirement: "Under s54, a landlord cannot unreasonably withhold consent to an assignment. The landlord can only impose conditions relating to the financial standing and business experience of the proposed assignee (s55).",
     });
   }
 

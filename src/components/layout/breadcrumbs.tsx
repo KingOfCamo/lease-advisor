@@ -11,6 +11,8 @@ const LABEL_MAP: Record<string, string> = {
   portfolio: "Portfolio",
   reports: "Reports",
   settings: "Settings",
+  enquiries: "Enquiries",
+  assistant: "Assistant",
   new: "New",
   upload: "Upload PDF",
   analysis: "Analysis",

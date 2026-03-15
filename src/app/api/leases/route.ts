@@ -1,8 +1,18 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const data = await req.json();
+
+  // For CLIENT users, force the clientId to their own
+  if (session.user.role === "CLIENT" && session.user.clientId) {
+    data.clientId = session.user.clientId;
+  }
 
   // Create or link client
   let clientId = data.clientId;
@@ -111,6 +121,10 @@ export async function POST(req: NextRequest) {
       demolitionClause: data.demolitionClause || false,
       relocationClause: data.relocationClause || false,
       firstRightOfRefusal: data.firstRightOfRefusal || false,
+      managingAgentName: data.managingAgentName || null,
+      managingAgentCompany: data.managingAgentCompany || null,
+      managingAgentEmail: data.managingAgentEmail || null,
+      managingAgentPhone: data.managingAgentPhone || null,
       specialConditions: data.specialConditions || null,
       status: "DRAFT",
     },

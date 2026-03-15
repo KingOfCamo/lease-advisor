@@ -74,6 +74,47 @@ export function StepPartiesTerm() {
           </div>
         </div>
 
+        {/* Managing Agent */}
+        <div className="border-t pt-4 mt-2">
+          <p className="text-sm font-medium mb-3 text-muted-foreground">Managing Agent (if applicable)</p>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label>Agent Name</Label>
+              <Input
+                value={state.data.managingAgentName}
+                onChange={(e) => updateData({ managingAgentName: e.target.value })}
+                placeholder="e.g. John Smith"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Company</Label>
+              <Input
+                value={state.data.managingAgentCompany}
+                onChange={(e) => updateData({ managingAgentCompany: e.target.value })}
+                placeholder="e.g. CBRE, JLL, Knight Frank"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Email</Label>
+              <Input
+                type="email"
+                value={state.data.managingAgentEmail}
+                onChange={(e) => updateData({ managingAgentEmail: e.target.value })}
+                placeholder="agent@company.com"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Phone</Label>
+              <Input
+                type="tel"
+                value={state.data.managingAgentPhone}
+                onChange={(e) => updateData({ managingAgentPhone: e.target.value })}
+                placeholder="04XX XXX XXX"
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="grid gap-4 md:grid-cols-2">
           <div className="space-y-2">
             <Label>Commencement Date *</Label>

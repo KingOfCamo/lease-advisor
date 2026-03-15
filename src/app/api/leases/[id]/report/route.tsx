@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { renderPdfToBuffer } from "@/services/pdf/render";
 import { LeaseReport } from "@/services/pdf/lease-report";
 import type { ReportData } from "@/services/pdf/lease-report";
@@ -11,6 +13,9 @@ export async function GET(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
   const lease = await prisma.lease.findUnique({
     where: { id: params.id },
     include: { property: true, client: true, analyses: true },
@@ -18,6 +23,11 @@ export async function GET(
 
   if (!lease) {
     return NextResponse.json({ error: "Lease not found" }, { status: 404 });
+  }
+
+  // For CLIENT users, ensure they can only access their own client's leases
+  if (session.user.role === "CLIENT" && session.user.clientId && session.user.clientId !== lease.clientId) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   const analysis = lease.analyses[lease.analyses.length - 1];

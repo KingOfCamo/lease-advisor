@@ -1,9 +1,13 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
   // Clean existing data
+  await prisma.session.deleteMany();
+  await prisma.account.deleteMany();
+  await prisma.user.deleteMany();
   await prisma.leaseAnalysis.deleteMany();
   await prisma.lease.deleteMany();
   await prisma.property.deleteMany();
@@ -381,10 +385,33 @@ async function main() {
     },
   });
 
+  // ──── USERS ────
+  const adminPassword = await bcrypt.hash("BPC-admin-2025!", 12);
+  await prisma.user.create({
+    data: {
+      name: "Ben Palmieri",
+      email: "benpalmieri@outlook.com",
+      hashedPassword: adminPassword,
+      role: "ADMIN",
+    },
+  });
+
+  const clientPassword = await bcrypt.hash("client-demo-2025!", 12);
+  await prisma.user.create({
+    data: {
+      name: "Sarah Chen",
+      email: "sarah@harbourcoffee.com.au",
+      hashedPassword: clientPassword,
+      role: "CLIENT",
+      clientId: client2.id,
+    },
+  });
+
   console.log("Seed data created successfully!");
   console.log(`  - 2 clients`);
   console.log(`  - 5 properties`);
   console.log(`  - 5 leases`);
+  console.log(`  - 2 users (admin + demo client)`);
   console.log(`  - Business settings initialized`);
 }
 

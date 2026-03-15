@@ -28,6 +28,7 @@ export interface RetailLeaseIssue {
   section: string;
   issue: string;
   detail: string;
+  requirement?: string;
 }
 
 export interface MarketBenchmark {

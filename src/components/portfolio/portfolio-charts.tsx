@@ -13,6 +13,10 @@ import {
   Pie,
   Cell,
   Legend,
+  LineChart,
+  Line,
+  AreaChart,
+  Area,
 } from "recharts";
 
 const COLORS = ["#1e3a5f", "#334e68", "#486581", "#627d98", "#829ab1"];
@@ -22,15 +26,91 @@ interface PortfolioChartsProps {
   reviewData: Array<{ name: string; value: number }>;
   expiryData: Array<{ name: string; expiry: string; rent: number }>;
   valueAddData: Array<{ lease: string; title: string; impact: number }>;
+  snapshotData?: Array<{
+    date: string;
+    avgScore: number;
+    totalValueAdd: number;
+    leaseCount: number;
+    totalRentPA: number;
+  }>;
 }
 
 export function PortfolioCharts({
   leaseScoreData,
   reviewData,
   valueAddData,
+  snapshotData,
 }: PortfolioChartsProps) {
   return (
     <div className="grid gap-6 lg:grid-cols-2">
+      {/* Score Trend Over Time */}
+      {snapshotData && snapshotData.length >= 2 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Score Trend</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={250}>
+              <LineChart data={snapshotData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="date"
+                  tick={{ fontSize: 11 }}
+                  interval={0}
+                  angle={-20}
+                  textAnchor="end"
+                  height={50}
+                />
+                <YAxis domain={[0, 100]} />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="avgScore"
+                  stroke="#1e3a5f"
+                  strokeWidth={2}
+                  dot={{ r: 4, fill: "#1e3a5f" }}
+                  name="Avg Score"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Cumulative Value-Add Over Time */}
+      {snapshotData && snapshotData.length >= 2 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg">Value-Add Growth</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={250}>
+              <AreaChart data={snapshotData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="date"
+                  tick={{ fontSize: 11 }}
+                  interval={0}
+                  angle={-20}
+                  textAnchor="end"
+                  height={50}
+                />
+                <YAxis tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                <Tooltip />
+                <Area
+                  type="monotone"
+                  dataKey="totalValueAdd"
+                  stroke="#16a34a"
+                  fill="#dcfce7"
+                  strokeWidth={2}
+                  name="Total Value-Add"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Score Distribution */}
       {leaseScoreData.length > 0 && (
         <Card>

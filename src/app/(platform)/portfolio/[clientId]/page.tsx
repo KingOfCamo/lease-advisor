@@ -6,8 +6,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { formatCurrency, formatDate } from "@/lib/formatters";
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, TrendingUp, TrendingDown, Minus } from "lucide-react";
 import { PortfolioCharts } from "@/components/portfolio/portfolio-charts";
+import { format } from "date-fns";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,13 @@ interface Recommendation {
   description: string;
   estimatedAnnualImpact: number;
   priority: string;
+}
+
+function DeltaArrow({ current, previous }: { current: number; previous: number }) {
+  const diff = current - previous;
+  if (Math.abs(diff) < 0.5) return <Minus className="h-4 w-4 text-gray-400" />;
+  if (diff > 0) return <TrendingUp className="h-4 w-4 text-green-600" />;
+  return <TrendingDown className="h-4 w-4 text-red-600" />;
 }
 
 export default async function PortfolioPage({
@@ -29,6 +37,9 @@ export default async function PortfolioPage({
       leases: {
         include: { property: true, analyses: true },
         orderBy: { baseRentPA: "desc" },
+      },
+      snapshots: {
+        orderBy: { snapshotDate: "asc" },
       },
     },
   });
@@ -98,6 +109,18 @@ export default async function PortfolioPage({
     }));
   }).sort((a, b) => b.impact - a.impact).slice(0, 10);
 
+  // Snapshot data for trend charts
+  const snapshotData = client.snapshots.map((s) => ({
+    date: format(s.snapshotDate, "dd/MM/yy"),
+    avgScore: s.avgScore,
+    totalValueAdd: s.totalValueAdd,
+    leaseCount: s.leaseCount,
+    totalRentPA: s.totalRentPA,
+  }));
+
+  const firstSnapshot = client.snapshots.length > 0 ? client.snapshots[0] : null;
+  const latestSnapshot = client.snapshots.length > 1 ? client.snapshots[client.snapshots.length - 1] : null;
+
   return (
     <div>
       <PageHeader title={`Portfolio: ${client.businessName}`}>
@@ -108,6 +131,56 @@ export default async function PortfolioPage({
           </Button>
         </Link>
       </PageHeader>
+
+      {/* Progress Card — Before vs After */}
+      {firstSnapshot && latestSnapshot && (
+        <Card className="mb-6 border-navy-200 bg-gradient-to-r from-navy-50 to-white">
+          <CardHeader>
+            <CardTitle className="text-lg">Your Progress</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {[
+                {
+                  label: "Avg Score",
+                  first: firstSnapshot.avgScore,
+                  current: latestSnapshot.avgScore,
+                  format: (v: number) => `${Math.round(v)}/100`,
+                },
+                {
+                  label: "Annual Rent",
+                  first: firstSnapshot.totalRentPA,
+                  current: latestSnapshot.totalRentPA,
+                  format: (v: number) => formatCurrency(v),
+                },
+                {
+                  label: "Value-Add Identified",
+                  first: firstSnapshot.totalValueAdd,
+                  current: latestSnapshot.totalValueAdd,
+                  format: (v: number) => `${formatCurrency(v)}/yr`,
+                },
+                {
+                  label: "Leases Managed",
+                  first: firstSnapshot.leaseCount,
+                  current: latestSnapshot.leaseCount,
+                  format: (v: number) => `${v}`,
+                },
+              ].map((metric) => (
+                <div key={metric.label} className="rounded-lg bg-white p-4 border border-gray-100">
+                  <p className="text-xs text-muted-foreground uppercase">{metric.label}</p>
+                  <div className="mt-1 flex items-center gap-2">
+                    <p className="text-xl font-bold text-navy-900">{metric.format(metric.current)}</p>
+                    <DeltaArrow current={metric.current} previous={metric.first} />
+                  </div>
+                  <p className="mt-1 text-xs text-gray-400">
+                    First engagement: {metric.format(metric.first)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5 mb-6">
@@ -157,6 +230,7 @@ export default async function PortfolioPage({
                   <th className="pb-2 font-medium">Annual Rent</th>
                   <th className="pb-2 font-medium">$/sqm</th>
                   <th className="pb-2 font-medium">Review</th>
+                  <th className="pb-2 font-medium">Managing Agent</th>
                   <th className="pb-2 font-medium">Expiry</th>
                   <th className="pb-2 font-medium">Score</th>
                   <th className="pb-2 font-medium">Value-Add</th>
@@ -184,6 +258,9 @@ export default async function PortfolioPage({
                         <Badge variant="outline" className="text-xs">
                           {lease.rentReviewMechanism.replace(/_/g, " ")}
                         </Badge>
+                      </td>
+                      <td className="py-3 text-xs text-gray-500">
+                        {lease.managingAgentCompany || lease.managingAgentName || "—"}
                       </td>
                       <td className="py-3">{formatDate(lease.expiryDate)}</td>
                       <td className="py-3">
@@ -221,6 +298,7 @@ export default async function PortfolioPage({
         reviewData={reviewData}
         expiryData={expiryData}
         valueAddData={valueAddData}
+        snapshotData={snapshotData}
       />
 
       {/* Critical Dates */}

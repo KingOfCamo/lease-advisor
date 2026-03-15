@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 import { renderPdfToBuffer } from "@/services/pdf/render";
 import { FeeProposalPdf } from "@/services/pdf/fee-proposal";
 import type { FeeProposalData } from "@/services/pdf/fee-proposal";
@@ -18,6 +20,14 @@ export async function POST(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const session = await getServerSession(authOptions);
+  if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  // For CLIENT users, ensure they can only access their own client's data
+  if (session.user.role === "CLIENT" && session.user.clientId && session.user.clientId !== params.id) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const body = await req.json();
   const { feeModel, feeAmount, feeDetail } = body;
 

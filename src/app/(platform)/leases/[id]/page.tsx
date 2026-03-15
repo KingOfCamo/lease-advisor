@@ -110,6 +110,40 @@ export default async function LeaseDetailPage({
               </div>
             </CardContent>
           </Card>
+
+          {(lease.managingAgentName || lease.managingAgentCompany || lease.managingAgentEmail || lease.managingAgentPhone) && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">Managing Agent</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2 text-sm">
+                {lease.managingAgentName && (
+                  <div>
+                    <p className="text-xs text-muted-foreground">Name</p>
+                    <p className="font-medium">{lease.managingAgentName}</p>
+                  </div>
+                )}
+                {lease.managingAgentCompany && (
+                  <div>
+                    <p className="text-xs text-muted-foreground">Company</p>
+                    <p>{lease.managingAgentCompany}</p>
+                  </div>
+                )}
+                {lease.managingAgentEmail && (
+                  <div>
+                    <p className="text-xs text-muted-foreground">Email</p>
+                    <p>{lease.managingAgentEmail}</p>
+                  </div>
+                )}
+                {lease.managingAgentPhone && (
+                  <div>
+                    <p className="text-xs text-muted-foreground">Phone</p>
+                    <p>{lease.managingAgentPhone}</p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          )}
         </div>
 
         {/* Middle column: Lease terms */}
