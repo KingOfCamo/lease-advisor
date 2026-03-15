@@ -9,7 +9,7 @@ const geistSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Ben Palmieri Consulting",
+  title: "Ancora Property Advisory",
   description: "Commercial lease advisory services for landlords and tenants across Australia and New Zealand",
 };
 

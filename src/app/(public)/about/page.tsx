@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Award, Briefcase, MapPin, Scale } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About — Ben Palmieri Consulting",
+  title: "About — Ancora Property Advisory",
   description: "Licensed estate agent with 10 years experience in commercial lease advisory across Australia and New Zealand",
 };
 
@@ -29,7 +29,7 @@ export default function AboutPage() {
               <p>
                 With over 10 years of hands-on experience managing commercial leases —
                 from small regional shopfronts to large CBD towers across Australia and
-                New Zealand — Ben Palmieri Consulting delivers practical, results-driven
+                New Zealand — Ancora Property Advisory delivers practical, results-driven
                 advisory services for landlords and tenants of all sizes.
               </p>
               <p>

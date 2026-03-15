@@ -401,7 +401,7 @@ export default async function AnalysisPage({
       <div className="mt-8 rounded-lg border bg-gray-50 p-4">
         <p className="text-xs text-muted-foreground">
           <strong>Disclaimer:</strong> This report is advisory in nature and does
-          not constitute legal advice. Ben Palmieri Consulting recommends seeking
+          not constitute legal advice. Ancora Property Advisory recommends seeking
           independent legal advice before acting on any recommendations. Analysis
           performed using {analysis.aiModel === "mock" ? "rule-based" : "AI"} engine.
         </p>

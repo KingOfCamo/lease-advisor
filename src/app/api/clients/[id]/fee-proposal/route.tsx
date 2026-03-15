@@ -70,7 +70,7 @@ export async function POST(
   if (!settings) {
     settings = {
       id: "default",
-      companyName: "Ben Palmieri Consulting",
+      companyName: "Ancora Property Advisory",
       tagline: "Director | Leasing Consultant",
       licenceNumber: "095428L",
       email: "",

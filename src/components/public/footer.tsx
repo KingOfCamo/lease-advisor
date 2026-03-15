@@ -10,7 +10,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Building2 className="h-6 w-6 text-white" />
-              <span className="text-lg font-semibold">Ben Palmieri Consulting</span>
+              <span className="text-lg font-semibold">Ancora Property Advisory</span>
             </div>
             <p className="text-sm text-navy-300">
               Director | Leasing Consultant
@@ -62,7 +62,7 @@ export function Footer() {
 
         <div className="mt-10 border-t border-navy-700 pt-6">
           <p className="text-center text-xs text-navy-400">
-            &copy; {new Date().getFullYear()} Ben Palmieri Consulting. All rights reserved.
+            &copy; {new Date().getFullYear()} Ancora Property Advisory. All rights reserved.
             This website is advisory in nature and does not constitute legal advice.
           </p>
         </div>

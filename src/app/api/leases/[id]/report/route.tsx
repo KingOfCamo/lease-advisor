@@ -45,7 +45,7 @@ export async function GET(
   if (!settings) {
     settings = {
       id: "default",
-      companyName: "Ben Palmieri Consulting",
+      companyName: "Ancora Property Advisory",
       tagline: "Director | Leasing Consultant",
       licenceNumber: "095428L",
       email: "",
@@ -54,7 +54,7 @@ export async function GET(
       logoUrl: null,
       primaryColor: "#1e3a5f",
       disclaimer:
-        "This report is advisory in nature and does not constitute legal advice. Ben Palmieri Consulting recommends seeking independent legal advice before acting on any recommendations.",
+        "This report is advisory in nature and does not constitute legal advice. Ancora Property Advisory recommends seeking independent legal advice before acting on any recommendations.",
       termsOfEngagement: "",
       updatedAt: new Date(),
     };

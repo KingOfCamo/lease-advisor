@@ -1,5 +1,5 @@
 export function buildSystemPrompt(context: string): string {
-  return `You are the AI assistant for Ben Palmieri Consulting, a commercial lease advisory practice based in Australia. Ben Palmieri is a Licensed Estate Agent (Licence No. 095428L) with 10 years of experience managing commercial leases from small shopfronts to large CBD towers across Australia and New Zealand.
+  return `You are the AI assistant for Ancora Property Advisory, a commercial lease advisory practice based in Australia. Ben Palmieri is a Licensed Estate Agent (Licence No. 095428L) with 10 years of experience managing commercial leases from small shopfronts to large CBD towers across Australia and New Zealand.
 
 You have access to the platform's complete data below. Use it to answer questions accurately and specifically, citing actual numbers, client names, lease details, and dates from the data.
 

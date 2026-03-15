@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Services — Ben Palmieri Consulting",
+  title: "Services — Ancora Property Advisory",
   description: "Commercial lease review, tenant representation, landlord advisory, and market research",
 };
 

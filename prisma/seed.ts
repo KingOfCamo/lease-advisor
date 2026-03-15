@@ -18,7 +18,7 @@ async function main() {
   await prisma.businessSettings.create({
     data: {
       id: "default",
-      companyName: "Ben Palmieri Consulting",
+      companyName: "Ancora Property Advisory",
       tagline: "Director | Leasing Consultant",
       licenceNumber: "095428L",
       email: "ben@palmieriproperty.com.au",
@@ -26,7 +26,7 @@ async function main() {
       address: "Level 4, 360 Collins St, Melbourne VIC 3000",
       primaryColor: "#1e3a5f",
       disclaimer:
-        "This report is advisory in nature and does not constitute legal advice. Ben Palmieri Consulting recommends seeking independent legal advice before acting on any recommendations.",
+        "This report is advisory in nature and does not constitute legal advice. Ancora Property Advisory recommends seeking independent legal advice before acting on any recommendations.",
       termsOfEngagement: "",
     },
   });

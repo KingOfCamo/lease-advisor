@@ -9,7 +9,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
           <div className="max-w-2xl">
             <p className="mb-3 text-sm font-medium uppercase tracking-wider text-navy-300">
-              Ben Palmieri Consulting
+              Ancora Property Advisory
             </p>
             <h1 className="text-4xl font-bold leading-tight sm:text-5xl">
               Commercial Lease Advisory
@@ -96,7 +96,7 @@ export default function HomePage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
               <h2 className="text-2xl font-bold text-navy-900 sm:text-3xl">
-                Why Ben Palmieri Consulting?
+                Why Ancora Property Advisory?
               </h2>
               <ul className="mt-6 space-y-4">
                 {[

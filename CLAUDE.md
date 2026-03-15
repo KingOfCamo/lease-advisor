@@ -1,4 +1,4 @@
-# Lease Advisor — Ben Palmieri Consulting
+# Lease Advisor — Ancora Property Advisory
 
 ## Quick Start
 ```bash

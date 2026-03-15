@@ -4,7 +4,7 @@ import { Breadcrumbs } from "@/components/layout/breadcrumbs";
 import AuthProvider from "@/components/providers/session-provider";
 
 export const metadata: Metadata = {
-  title: "Director | Leasing Consultant — Ben Palmieri Consulting",
+  title: "Director | Leasing Consultant — Ancora Property Advisory",
   description: "Commercial lease analysis platform",
 };
 

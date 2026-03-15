@@ -3,7 +3,7 @@ import { ContactForm } from "@/components/public/contact-form";
 import { Building2, Mail, MapPin, Award } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Contact — Ben Palmieri Consulting",
+  title: "Contact — Ancora Property Advisory",
   description: "Get in touch for commercial lease advisory services across Australia and New Zealand",
 };
 
@@ -43,7 +43,7 @@ export default function ContactPage() {
                   <li className="flex items-start gap-3">
                     <Building2 className="mt-0.5 h-5 w-5 text-navy-900" />
                     <div>
-                      <p className="font-medium text-navy-900">Ben Palmieri Consulting</p>
+                      <p className="font-medium text-navy-900">Ancora Property Advisory</p>
                       <p className="text-sm text-gray-500">Director | Leasing Consultant</p>
                     </div>
                   </li>
