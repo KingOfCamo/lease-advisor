@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DATABASE_URL_UNPOOLED")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Client {
@@ -21,6 +20,7 @@ model Client {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   leases        Lease[]
+  snapshots     PortfolioSnapshot[]
 }
 
 model Property {
@@ -85,6 +85,11 @@ model Lease {
   relocationClause         Boolean   @default(false)
   firstRightOfRefusal      Boolean   @default(false)
 
+  managingAgentName        String?
+  managingAgentCompany     String?
+  managingAgentEmail       String?
+  managingAgentPhone       String?
+
   specialConditions        String?
   originalPdfUrl           String?
 
@@ -114,6 +119,31 @@ model LeaseAnalysis {
 
   analysedAt               DateTime @default(now())
   aiModel                  String   @default("mock")
+}
+
+model Enquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  company   String?
+  service   String?  // LEASE_REVIEW | TENANT_REP | LANDLORD_REP | OTHER
+  message   String
+  status    String   @default("NEW") // NEW | READ | REPLIED | ARCHIVED
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PortfolioSnapshot {
+  id              String   @id @default(cuid())
+  clientId        String
+  client          Client   @relation(fields: [clientId], references: [id])
+  leaseCount      Int
+  totalRentPA     Float
+  avgScore        Float
+  totalValueAdd   Float
+  snapshotDate    DateTime @default(now())
 }
 
 model BusinessSettings {
