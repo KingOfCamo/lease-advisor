@@ -113,22 +113,27 @@ export default function HomePage() {
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
             {[
               {
-                src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80",
-                alt: "CBD Office",
+                src: "https://images.unsplash.com/photo-1674393027437-9f31ccf0b563?w=600&q=80",
+                alt: "Melbourne CBD Office Tower",
                 label: "CBD Offices",
               },
               {
-                src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80",
-                alt: "Mixed Use",
+                src: "https://images.unsplash.com/photo-1582697274864-05e347a69112?w=600&q=80",
+                alt: "Bourke Street Melbourne Retail",
                 label: "Retail & Mixed-Use",
               },
               {
-                src: "https://images.unsplash.com/photo-1582407947092-dab289423a59?w=600&q=80",
-                alt: "Regional",
+                src: "https://images.unsplash.com/photo-1694517794266-ba945442cb36?w=600&q=80",
+                alt: "Ballarat Regional Commercial",
                 label: "Regional Commercial",
+              },
+              {
+                src: "https://images.unsplash.com/photo-1768368052673-64a526b7062c?w=600&q=80",
+                alt: "Heritage Shopfront",
+                label: "Shopfronts",
               },
             ].map((item) => (
               <motion.div
