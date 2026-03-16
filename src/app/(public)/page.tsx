@@ -51,7 +51,7 @@ export default function HomePage() {
       <StatsCounter
         stats={[
           { value: 10, suffix: "+", label: "Years Experience" },
-          { value: 500, suffix: "+", label: "Leases Managed" },
+          { value: 100, suffix: "+", label: "Leases Managed" },
           { value: 100, suffix: "%", label: "Client Satisfaction" },
           { value: 2, suffix: "", label: "Countries" },
         ]}
