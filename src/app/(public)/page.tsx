@@ -1,167 +1,275 @@
+"use client";
+
 import Link from "next/link";
-import { ArrowRight, FileSearch, Users, TrendingUp, Shield } from "lucide-react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { FileSearch, Users, Building2, ShieldCheck, ChevronRight } from "lucide-react";
+import { VideoHero } from "@/components/public/video-hero";
+import { StatsCounter } from "@/components/public/stats-counter";
+import { ScrollReveal } from "@/components/public/scroll-reveal";
+import { AnimatedServiceCard } from "@/components/public/animated-service-card";
+import { ParallaxImage } from "@/components/public/parallax-image";
 
 export default function HomePage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-navy-900 text-white">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
-          <div className="max-w-2xl">
-            <p className="mb-3 text-sm font-medium uppercase tracking-wider text-navy-300">
-              Ancora Property Advisory
-            </p>
-            <h1 className="text-4xl font-bold leading-tight sm:text-5xl">
-              Commercial Lease Advisory
-            </h1>
-            <p className="mt-5 text-lg text-navy-200">
-              Expert guidance for landlords and tenants navigating commercial leases
-              across Australia and New Zealand — from regional shopfronts to CBD towers.
-              Honest advice. Clear recommendations. Lasting relationships.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="/contact"
-                className="inline-flex items-center rounded-lg bg-white px-6 py-3 text-sm font-semibold text-navy-900 shadow-sm transition hover:bg-gray-100"
-              >
-                Get in Touch
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-              <Link
-                href="/services"
-                className="inline-flex items-center rounded-lg border border-navy-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-navy-800"
-              >
-                Our Services
-              </Link>
+      {/* Section 1: Video Hero */}
+      <VideoHero
+        videoSrc="https://videos.pexels.com/video-files/3129671/3129671-hd_1920_1080_30fps.mp4"
+        posterSrc="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80"
+      >
+        <div className="max-w-2xl">
+          <p className="text-xs font-medium uppercase tracking-widest text-gold-400">
+            ANCORA PROPERTY ADVISORY
+          </p>
+          <h1 className="text-5xl md:text-7xl font-bold text-white">
+            Navigate Your Commercial Lease With Confidence
+          </h1>
+          <p className="text-lg text-navy-200 mt-6">
+            Expert guidance for landlords and tenants navigating commercial leases
+            across Australia and New Zealand.
+          </p>
+          <div className="mt-8 flex gap-4">
+            <Link
+              href="/contact"
+              className="inline-flex items-center bg-gold-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-gold-600 transition"
+            >
+              Get in Touch
+              <ChevronRight className="ml-2 h-4 w-4" />
+            </Link>
+            <Link
+              href="/services"
+              className="inline-flex items-center border border-white/30 text-white px-6 py-3 rounded-lg font-medium hover:bg-white/10 transition"
+            >
+              Our Services
+            </Link>
+          </div>
+        </div>
+      </VideoHero>
+
+      {/* Section 2: Stats Counter */}
+      <StatsCounter
+        stats={[
+          { value: 10, suffix: "+", label: "Years Experience" },
+          { value: 500, suffix: "+", label: "Leases Managed" },
+          { value: 100, suffix: "%", label: "Client Satisfaction" },
+          { value: 2, suffix: "", label: "Countries" },
+        ]}
+      />
+
+      {/* Section 3: Services Overview */}
+      <section className="py-24 bg-white">
+        <div className="mx-auto max-w-6xl px-6">
+          <ScrollReveal>
+            <div className="text-center">
+              <h2 className="text-3xl md:text-4xl font-bold text-navy-900">
+                How We Help
+              </h2>
+              <div className="w-16 h-0.5 bg-gold-400 mx-auto mt-4 mb-4" />
+              <p className="text-gray-500 max-w-2xl mx-auto text-center">
+                Comprehensive lease advisory services tailored to your position —
+                whether you&apos;re a landlord or tenant.
+              </p>
             </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+            <AnimatedServiceCard
+              icon={<FileSearch className="h-6 w-6" />}
+              title="Lease Review & Analysis"
+              description="Comprehensive analysis of lease terms, obligations, and market positioning."
+            />
+            <AnimatedServiceCard
+              icon={<Users className="h-6 w-6" />}
+              title="Tenant Representation"
+              description="Expert advocacy and negotiation for tenants securing the best terms."
+              index={1}
+            />
+            <AnimatedServiceCard
+              icon={<Building2 className="h-6 w-6" />}
+              title="Landlord Advisory"
+              description="Strategic advice to maximise returns and minimise vacancy risk."
+              index={2}
+            />
+            <AnimatedServiceCard
+              icon={<ShieldCheck className="h-6 w-6" />}
+              title="Compliance Advisory"
+              description="Ensure lease compliance with current legislation and market standards."
+              index={3}
+            />
           </div>
         </div>
       </section>
 
-      {/* Services overview */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-navy-900 sm:text-3xl">
-              How We Help
-            </h2>
-            <p className="mt-3 text-gray-500">
-              Comprehensive lease advisory services tailored to your position
-            </p>
-          </div>
+      {/* Section 4: Property Showcase */}
+      <section className="py-24 bg-navy-50">
+        <div className="mx-auto max-w-6xl px-6">
+          <ScrollReveal>
+            <div className="text-center">
+              <h2 className="text-3xl font-bold text-navy-900">
+                From Regional Shopfronts to CBD Towers
+              </h2>
+              <div className="w-16 h-0.5 bg-gold-400 mx-auto mt-4 mb-4" />
+            </div>
+          </ScrollReveal>
 
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
             {[
               {
-                icon: FileSearch,
-                title: "Lease Review",
-                description:
-                  "Clause-by-clause analysis of your commercial lease with scoring and actionable recommendations.",
+                src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80",
+                alt: "CBD Office",
+                label: "CBD Offices",
               },
               {
-                icon: Users,
-                title: "Tenant Representation",
-                description:
-                  "Negotiation support and market insights to secure the best terms for your tenancy.",
+                src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80",
+                alt: "Mixed Use",
+                label: "Retail & Mixed-Use",
               },
               {
-                icon: TrendingUp,
-                title: "Landlord Advisory",
-                description:
-                  "Maximise rental income and minimise risk across your commercial property portfolio.",
+                src: "https://images.unsplash.com/photo-1582407947092-dab289423a59?w=600&q=80",
+                alt: "Regional",
+                label: "Regional Commercial",
               },
-              {
-                icon: Shield,
-                title: "Compliance",
-                description:
-                  "Ensure your lease meets applicable retail leasing legislation and industry standards across Australia.",
-              },
-            ].map((service) => (
-              <div
-                key={service.title}
-                className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
+            ].map((item) => (
+              <motion.div
+                key={item.label}
+                whileHover={{ scale: 1.02 }}
+                className="relative overflow-hidden rounded-2xl h-80 group"
               >
-                <service.icon className="mb-4 h-8 w-8 text-navy-900" />
-                <h3 className="text-lg font-semibold text-navy-900">{service.title}</h3>
-                <p className="mt-2 text-sm text-gray-500">{service.description}</p>
-              </div>
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  fill
+                  className="object-cover group-hover:scale-110 transition duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 to-transparent" />
+                <div className="absolute bottom-0 left-0 p-6">
+                  <p className="text-white text-lg font-semibold">{item.label}</p>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Why choose section */}
-      <section className="bg-gray-50 py-16 sm:py-20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-            <div>
-              <h2 className="text-2xl font-bold text-navy-900 sm:text-3xl">
+      {/* Section 5: Why Ancora */}
+      <section className="py-24 bg-white">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto px-6">
+          <ParallaxImage
+            src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=1200&q=80"
+            alt="Sydney skyline"
+            className="relative h-[500px] rounded-2xl"
+          />
+
+          <div>
+            <ScrollReveal>
+              <h2 className="text-3xl font-bold text-navy-900">
                 Why Ancora Property Advisory?
               </h2>
-              <ul className="mt-6 space-y-4">
-                {[
-                  {
-                    title: "10 Years of Hands-On Experience",
-                    description:
-                      "A decade managing commercial leases — from small regional shopfronts to large CBD towers across Australia and New Zealand.",
-                  },
-                  {
-                    title: "Honest & Upfront",
-                    description:
-                      "Straight-talking advice with no hidden agendas. Your best interests come first, always.",
-                  },
-                  {
-                    title: "Both Sides of the Table",
-                    description:
-                      "Deep understanding of how both landlords and tenants think, so you get practical advice grounded in real-world negotiation.",
-                  },
-                  {
-                    title: "Exceptional Communication",
-                    description:
-                      "Built on a foundation of clear, responsive communication and long-lasting client relationships — including hard-to-reach regional areas.",
-                  },
-                ].map((item) => (
-                  <li key={item.title} className="flex gap-3">
-                    <div className="mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-navy-900" />
-                    <div>
-                      <h4 className="font-semibold text-navy-900">{item.title}</h4>
-                      <p className="text-sm text-gray-500">{item.description}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <div className="w-16 h-0.5 bg-gold-400 mt-4 mb-8" />
+            </ScrollReveal>
+
+            {[
+              {
+                title: "Licensed & Experienced",
+                description:
+                  "Licensed Estate Agent with over a decade of commercial lease expertise.",
+                delay: 0.1,
+              },
+              {
+                title: "Independent Advice",
+                description:
+                  "No commissions, no conflicts — just straightforward advisory in your best interest.",
+                delay: 0.2,
+              },
+              {
+                title: "Australia & New Zealand",
+                description:
+                  "Coverage from regional towns to major CBD markets.",
+                delay: 0.3,
+              },
+              {
+                title: "Results-Driven",
+                description:
+                  "Practical recommendations that save time and money.",
+                delay: 0.4,
+              },
+            ].map((item) => (
+              <ScrollReveal key={item.title} delay={item.delay}>
+                <div className="flex gap-4 items-start mb-6">
+                  <div className="w-2 h-2 rounded-full bg-gold-400 mt-2 shrink-0" />
+                  <div>
+                    <h4 className="font-bold text-navy-900">{item.title}</h4>
+                    <p className="text-gray-600">{item.description}</p>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Section 6: Testimonial */}
+      <section className="py-24 bg-navy-900">
+        <div className="mx-auto max-w-4xl px-6 text-center">
+          <p className="text-6xl text-gold-400 font-serif leading-none mb-4">
+            &ldquo;
+          </p>
+          <ScrollReveal>
+            <blockquote className="text-xl md:text-2xl text-white/90 font-light italic max-w-3xl mx-auto leading-relaxed">
+              Every clause matters. We help you understand what you&apos;re signing,
+              negotiate better outcomes, and protect your interests for the long term.
+            </blockquote>
+            <p className="mt-6 text-gold-400 font-medium">
+              — Ben Palmieri, Director
+            </p>
+          </ScrollReveal>
+
+          <div className="mt-12 flex justify-center gap-12">
+            <div className="flex flex-col items-center gap-2">
+              <ShieldCheck className="h-6 w-6 text-gold-400" />
+              <span className="text-sm text-navy-200">Licensed Agent</span>
             </div>
-            <div className="rounded-xl bg-navy-900 p-8 text-white">
-              <blockquote className="text-lg font-medium leading-relaxed">
-                &ldquo;I believe in loyalty, honesty, and always doing right by my clients.
-                When you understand both sides of the table, you deliver better outcomes
-                for the side you&apos;re on.&rdquo;
-              </blockquote>
-              <p className="mt-4 text-sm text-navy-300">
-                — Ben Palmieri, Director
-              </p>
+            <div className="flex flex-col items-center gap-2">
+              <Building2 className="h-6 w-6 text-gold-400" />
+              <span className="text-sm text-navy-200">10+ Years</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Users className="h-6 w-6 text-gold-400" />
+              <span className="text-sm text-navy-200">AU & NZ Wide</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-6xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-navy-900 sm:text-3xl">
-            Ready to Review Your Lease?
-          </h2>
-          <p className="mx-auto mt-3 max-w-lg text-gray-500">
-            Get in touch for a no-obligation conversation about your commercial lease
-            needs.
-          </p>
-          <Link
-            href="/contact"
-            className="mt-8 inline-flex items-center rounded-lg bg-navy-900 px-8 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-navy-800"
-          >
-            Contact Us
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
+      {/* Section 7: CTA */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src="https://images.unsplash.com/photo-1514395462725-fb4566210144?w=1200&q=80"
+            alt="Melbourne"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-navy-950/80" />
+        <div className="relative z-10 text-center mx-auto max-w-4xl px-6">
+          <ScrollReveal>
+            <h2 className="text-3xl md:text-4xl font-bold text-white">
+              Ready to Review Your Lease?
+            </h2>
+            <p className="text-navy-200 mt-4 max-w-xl mx-auto">
+              Get in touch for a no-obligation conversation about your commercial
+              lease needs.
+            </p>
+            <Link
+              href="/contact"
+              className="mt-8 inline-flex items-center bg-gold-500 text-white px-8 py-3.5 rounded-lg font-medium hover:bg-gold-600 transition"
+            >
+              Contact Us
+              <ChevronRight className="ml-2 h-4 w-4" />
+            </Link>
+          </ScrollReveal>
         </div>
       </section>
     </>

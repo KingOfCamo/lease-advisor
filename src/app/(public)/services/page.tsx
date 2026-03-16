@@ -1,154 +1,178 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+"use client";
+
+import { ScrollReveal } from "@/components/public/scroll-reveal";
+import { motion } from "framer-motion";
+import Image from "next/image";
 import {
-  ArrowRight,
   FileSearch,
   Users,
-  TrendingUp,
+  Building2,
+  ShieldCheck,
   BarChart3,
-  Shield,
-  Calculator,
+  FileText,
+  CheckCircle,
 } from "lucide-react";
-
-export const metadata: Metadata = {
-  title: "Services — Ancora Property Advisory",
-  description: "Commercial lease review, tenant representation, landlord advisory, and market research",
-};
+import Link from "next/link";
 
 const services = [
   {
     icon: FileSearch,
     title: "Lease Review & Analysis",
     description:
-      "Comprehensive clause-by-clause review of your commercial lease. Every term is scored for fairness, benchmarked against market standards, and assessed for financial impact.",
-    benefits: [
-      "Landlord and tenant scoring on every clause",
-      "Estimated annual financial impact of each term",
-      "Retail leasing legislation compliance check",
-      "Clear, prioritised recommendations",
-    ],
+      "Line-by-line review of your lease to identify risks, obligations, and opportunities.",
+    benefits: ["Risk identification", "Obligation mapping", "Market comparison"],
   },
   {
     icon: Users,
     title: "Tenant Representation",
     description:
-      "Acting on behalf of tenants to negotiate the best possible lease terms. From initial heads of agreement through to execution, we ensure your interests are protected.",
+      "Expert negotiation and advocacy to secure the best possible terms for your tenancy.",
     benefits: [
-      "Market rent benchmarking and evidence",
-      "Negotiation strategy and support",
-      "Incentive structuring (rent-free, fitout contributions)",
-      "Option and renewal term advice",
+      "Lease negotiation",
+      "Renewal strategy",
+      "Rent review preparation",
     ],
   },
   {
-    icon: TrendingUp,
+    icon: Building2,
     title: "Landlord Advisory",
     description:
-      "Strategic advice for landlords looking to maximise rental income, reduce vacancy, and strengthen lease positions across their portfolio.",
+      "Strategic advice to maximise asset value, minimise vacancy, and manage tenant relationships.",
     benefits: [
-      "Portfolio-wide lease health analysis",
-      "Rent review and expiry profiling",
-      "Outgoings recovery optimisation",
-      "Vacancy risk identification and mitigation",
+      "Tenant retention",
+      "Vacancy minimisation",
+      "Portfolio strategy",
     ],
   },
   {
     icon: BarChart3,
     title: "Market Research & Benchmarking",
     description:
-      "Access to current market data across Australian and New Zealand markets. Understand where your rent sits relative to comparable properties and recent transactions.",
+      "Data-driven insights on rental rates, incentives, and market conditions.",
     benefits: [
-      "Suburb-level rent benchmarks ($/sqm)",
-      "Property grade and type comparisons",
-      "Incentive trend analysis",
-      "Vacancy and absorption rates",
+      "Rental benchmarking",
+      "Market trend analysis",
+      "Comparable evidence",
     ],
   },
   {
-    icon: Shield,
+    icon: ShieldCheck,
     title: "Compliance Advisory",
     description:
-      "Ensure your lease complies with applicable retail leasing legislation across Australian states and territories. Identify issues before they become costly disputes.",
+      "Ensure your lease meets all legislative requirements and industry standards.",
     benefits: [
-      "Retail leasing legislation audit (all states)",
-      "Disclosure statement review",
-      "Key dates and notice period tracking",
-      "Risk flag identification",
+      "Regulatory compliance",
+      "Disclosure obligations",
+      "Risk mitigation",
     ],
   },
   {
-    icon: Calculator,
+    icon: FileText,
     title: "Fee Proposals & Reporting",
     description:
-      "Professional reporting and transparent fee structures. Receive detailed analysis reports and clear fee proposals tailored to the scope of your engagement.",
+      "Professional reports and fee proposals for transparent, structured advisory.",
     benefits: [
-      "Detailed PDF analysis reports",
-      "Portfolio summary dashboards",
-      "Transparent fixed-fee or per-lease pricing",
-      "Value-add quantification",
+      "Detailed reporting",
+      "Fee transparency",
+      "Client presentations",
     ],
   },
 ];
 
 export default function ServicesPage() {
   return (
-    <>
-      {/* Header */}
-      <section className="bg-navy-900 text-white">
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold sm:text-4xl">Our Services</h1>
-          <p className="mt-3 max-w-2xl text-lg text-navy-200">
-            Tailored commercial lease advisory for landlords and tenants across
-            Australia and New Zealand — from regional towns to major CBDs.
-          </p>
+    <main>
+      {/* Hero Section */}
+      <section className="relative h-[50vh] overflow-hidden flex items-center">
+        <Image
+          src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1920&q=80"
+          alt="Conference room"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-navy-950/70" />
+        <div className="relative z-10 max-w-6xl mx-auto px-6">
+          <ScrollReveal>
+            <p className="text-xs uppercase tracking-widest text-gold-400 mb-4">
+              OUR SERVICES
+            </p>
+          </ScrollReveal>
+          <ScrollReveal>
+            <h1 className="text-4xl md:text-5xl font-bold text-white">
+              Expert Commercial Lease Advisory
+            </h1>
+          </ScrollReveal>
+          <ScrollReveal>
+            <p className="text-lg text-navy-200 mt-4 max-w-2xl">
+              Comprehensive advisory services for tenants, landlords, and
+              property professionals across Australia and New Zealand.
+            </p>
+          </ScrollReveal>
         </div>
       </section>
 
-      {/* Services grid */}
-      <section className="py-16 sm:py-20">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-8 md:grid-cols-2">
-            {services.map((service) => (
-              <div
-                key={service.title}
-                className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
-              >
-                <service.icon className="mb-4 h-8 w-8 text-navy-900" />
-                <h3 className="text-lg font-semibold text-navy-900">{service.title}</h3>
-                <p className="mt-2 text-sm text-gray-500">{service.description}</p>
-                <ul className="mt-4 space-y-2">
-                  {service.benefits.map((benefit) => (
-                    <li key={benefit} className="flex items-start gap-2 text-sm text-gray-600">
-                      <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-navy-900" />
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+      {/* Services Grid */}
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {services.map((service, index) => {
+              const Icon = service.icon;
+              return (
+                <motion.div
+                  key={service.title}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ y: -4 }}
+                  className="rounded-2xl border border-gray-200 p-8 group hover:border-gold-400 transition-all hover:shadow-lg"
+                >
+                  <div className="h-12 w-12 rounded-xl bg-gold-50 flex items-center justify-center group-hover:bg-gold-100 transition-colors">
+                    <Icon className="h-6 w-6 text-gold-700" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-navy-900 mt-5">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 mt-3 leading-relaxed">
+                    {service.description}
+                  </p>
+                  <ul className="mt-5 space-y-2">
+                    {service.benefits.map((benefit) => (
+                      <li
+                        key={benefit}
+                        className="flex items-center gap-2 text-gray-600"
+                      >
+                        <CheckCircle className="h-4 w-4 text-gold-400 flex-shrink-0" />
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="bg-gray-50 py-16 sm:py-20">
-        <div className="mx-auto max-w-6xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-navy-900">
-            Need Help With Your Lease?
+      {/* CTA Section */}
+      <section className="py-24 bg-navy-900 text-center">
+        <ScrollReveal>
+          <h2 className="text-3xl font-bold text-white">
+            Ready to Get Started?
           </h2>
-          <p className="mx-auto mt-3 max-w-lg text-gray-500">
-            Every lease is different. Get in touch to discuss your specific situation
-            and find out how we can help.
+          <p className="text-navy-200 mt-4 max-w-xl mx-auto">
+            Get in touch today and let us help you navigate your next commercial
+            lease with confidence.
           </p>
           <Link
             href="/contact"
-            className="mt-8 inline-flex items-center rounded-lg bg-navy-900 px-8 py-3 text-sm font-semibold text-white transition hover:bg-navy-800"
+            className="inline-block mt-8 px-8 py-3 bg-gold-400 text-navy-900 font-semibold rounded-lg hover:bg-gold-500 transition-colors"
           >
             Contact Us
-            <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
-        </div>
+        </ScrollReveal>
       </section>
-    </>
+    </main>
   );
 }
