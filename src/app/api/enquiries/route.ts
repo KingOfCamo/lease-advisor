@@ -27,6 +27,21 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    // Send email notification via FormSubmit
+    fetch("https://formsubmit.co/ajax/benpalmieri@outlook.com", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        _subject: `New Enquiry from ${name}`,
+        name,
+        email,
+        phone: phone || "Not provided",
+        company: company || "Not provided",
+        service: service || "Not specified",
+        message,
+      }),
+    }).catch(() => {});
+
     return NextResponse.json({ id: enquiry.id }, { status: 201 });
   } catch {
     return NextResponse.json(
